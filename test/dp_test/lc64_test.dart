@@ -10,4 +10,5 @@ void main(){
     final grid = [[1,2,3],[4,5,6]];
     expect(Solution().minPathSum(grid), 12);
   });
+
 }

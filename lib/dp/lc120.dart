@@ -36,7 +36,11 @@ class Solution {
     int m = triangle.length;
     final dp = List.generate(m, (_) => List.filled(m,0));
     dp[0][0] = triangle[0][0];
-
+   //( i - 1 ) % 2 =? 1 - (i % 2 )
+    //(i - 1 ) % 2 = (i % 2 - 1 % 2 ) % 2
+    // (i % 2 - 1) % 2
+    // 1 - (i % 2) =
+    // i =
     for (var i = 1; i < m; i++) {
       dp[i][0] = dp[i - 1][0] + triangle[i][0];
       for (var j = 1; j < i; j++) {
@@ -44,6 +48,31 @@ class Solution {
       }
       dp[i][i] = dp[i - 1][i - 1] + triangle[i][i];
     }
+    print('Solution.minimumTotal $dp');
     return dp[m -1].reduce(min);
+  }
+}
+
+// 空间优化
+//Solution.minimumTotal [[2, 0, 0, 0], [5, 6, 0, 0], [11, 10, 13, 0], [15, 11, 18, 16]]
+//Solution1.minimumTotal [[13, 10, 0, 0], [17, 16, 8, 0]]
+class Solution1 {
+  int minimumTotal(List<List<int>> triangle) {
+    int m = triangle.length;
+    final dp = List.generate(2, (_) => List.filled(m,0));
+    dp[0][0] = triangle[0][0];
+
+    for (var i = 1; i < m; i++) {
+      int cur = i % 2;
+      int pre = (i - 1) % 2;
+      dp[cur][0] = dp[pre][0] + triangle[i][0];
+      for (var j = 1; j < i; j++) {
+        dp[cur][j] = min(dp[pre][j - 1], dp[pre][j]) + triangle[i][j];
+      }
+      dp[cur][i] = dp[pre][i - 1] + triangle[i][i];
+      print('Solution1.minimumTotal $dp');
+     }
+    print('Solution1.minimumTotal $dp');
+    return dp[(m - 1) & 1].reduce(min);
   }
 }
